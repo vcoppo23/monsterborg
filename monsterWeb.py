@@ -18,11 +18,11 @@ import datetime
 webPort = 80                            # Port number for the web-page, 80 is what web-pages normally use
 imageWidth = 240                        # Width of the captured image in pixels
 imageHeight = 192                       # Height of the captured image in pixels
-frameRate = 30                          # Number of images to capture per second
+frameRate = 24                          # Number of images to capture per second
 displayRate = 10                        # Number of images to request per second
 photoDirectory = '/home/pi'             # Directory to save photos to
 flippedCamera = True                    # Swap between True and False if the camera image is rotated by 180
-jpegQuality = 80                        # JPEG quality level, smaller is faster, higher looks better (0 to 100)
+jpegQuality = 40                        # JPEG quality level, smaller is faster, higher looks better (0 to 100)
 
 # Global values
 global TB
@@ -269,12 +269,12 @@ class WebServer(SocketServer.BaseRequestHandler):
             httpText += '<iframe id="setDrive" src="/off" width="100%" height="50" frameborder="0"></iframe>\n'
             httpText += '<center>\n'
             httpText += '<button onclick="Drive(-1,1)" style="width:200px;height:100px;"><b>Spin Left</b></button>\n'
-            httpText += '<button onclick="Drive(1,1)" style="width:200px;height:100px;"><b>Forward</b></button>\n'
+            httpText += '<button ArrowUp="Drive(1,1)" style="width:200px;height:100px;"><b>Forward</b></button>\n'
             httpText += '<button onclick="Drive(1,-1)" style="width:200px;height:100px;"><b>Spin Right</b></button>\n'
             httpText += '<br /><br />\n'
-            httpText += '<button onclick="Drive(0,1)" style="width:200px;height:100px;"><b>Turn Left</b></button>\n'
-            httpText += '<button onclick="Drive(-1,-1)" style="width:200px;height:100px;"><b>Reverse</b></button>\n'
-            httpText += '<button onclick="Drive(1,0)" style="width:200px;height:100px;"><b>Turn Right</b></button>\n'
+            httpText += '<button ArrowLeft="Drive(0,1)" style="width:200px;height:100px;"><b>Turn Left</b></button>\n'
+            httpText += '<button ArrowDown="Drive(-1,-1)" style="width:200px;height:100px;"><b>Reverse</b></button>\n'
+            httpText += '<button ArrowRight="Drive(1,0)" style="width:200px;height:100px;"><b>Turn Right</b></button>\n'
             httpText += '<br /><br />\n'
             httpText += '<button onclick="Off()" style="width:200px;height:100px;"><b>Stop</b></button>\n'
             httpText += '<br /><br />\n'
