@@ -345,7 +345,6 @@ class WebServer(SocketServer.BaseRequestHandler):
             httpText += '</html>\n'
             self.send(httpText)
         elif getPath == '/val':
-            elif getPath == '/hold':
             # Alternate page, hold buttons to move (does not work with all devices)
             httpText = '<html>\n'
             httpText += '<head>\n'
