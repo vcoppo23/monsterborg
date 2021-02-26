@@ -340,6 +340,52 @@ class WebServer(SocketServer.BaseRequestHandler):
             httpText += '</body>\n'
             httpText += '</html>\n'
             self.send(httpText)
+        elif getPath == '/val':
+            httpText = '<html>\n'
+            httpText += '<head>\n'
+            httpText += '<script language="JavaScript"><!--\n'
+            httpText += 'function Drive(left, right) {\n'
+            httpText += ' var iframe = document.getElementById("setDrive");\n'
+            httpText += ' var slider = document.getElementById("speed");\n'
+            httpText += ' left *= speed.value / 100.0;'
+            httpText += ' right *= speed.value / 100.0;'
+            httpText += ' iframe.src = "/set/" + left + "/" + right;\n'
+            httpText += '}\n'
+            httpText += 'function keyListener(event){
+            httpText += 'event = event || window.event; 
+            httpText += 'var key = event.key || event.which || event.keyCode;'
+            httpText += "if(key===84){ //this is for 'T'"
+            httpText += 'Drive(1,1);'
+            httpText +='}'
+            httpText +='}'
+            httpText += 'function Off() {\n'
+            httpText += ' var iframe = document.getElementById("setDrive");\n'
+            httpText += ' iframe.src = "/off";\n'
+            httpText += '}\n'
+            httpText += 'function Photo() {\n'
+            httpText += ' var iframe = document.getElementById("setDrive");\n'
+            httpText += ' iframe.src = "/photo";\n'
+            httpText += '}\n'
+            httpText += '//--></script>\n'
+            httpText += '</head>\n'
+            httpText += '<body>\n'
+            httpText += '<iframe src="/stream" width="100%" height="500" frameborder="0"></iframe>\n'
+            httpText += '<iframe id="setDrive" src="/off" width="100%" height="50" frameborder="0"></iframe>\n'
+            httpText += '<center>\n'
+            httpText += '<button onmousedown="Drive(-1,1)" onmouseup="Off()" style="width:200px;height:100px;"><b>Spin Left</b></button>\n'
+            httpText += '<button onmousedown="Drive(1,1)" onmouseup="Off()" style="width:200px;height:100px;"><b>Forward</b></button>\n'
+            httpText += '<button onmousedown="Drive(1,-1)" onmouseup="Off()" style="width:200px;height:100px;"><b>Spin Right</b></button>\n'
+            httpText += '<br /><br />\n'
+            httpText += '<button onmousedown="Drive(0,1)" onmouseup="Off()" style="width:200px;height:100px;"><b>Turn Left</b></button>\n'
+            httpText += '<button onmousedown="Drive(-1,-1)" onmouseup="Off()" style="width:200px;height:100px;"><b>Reverse</b></button>\n'
+            httpText += '<button onmousedown="Drive(1,0)" onmouseup="Off()" style="width:200px;height:100px;"><b>Turn Right</b></button>\n'
+            httpText += '<br /><br />\n'
+            httpText += '<br /><br />\n'
+            httpText += '<input id="speed" type="range" min="0" max="100" value="100" style="width:600px" />\n'
+            httpText += '</center>\n'
+            httpText += '</body>\n'
+            httpText += '</html>\n'
+            self.send(httpText)
         else:
             # Unexpected page
             self.send('Path : "%s"' % (getPath))
