@@ -293,7 +293,6 @@ class WebServer(SocketServer.BaseRequestHandler):
             httpText += ' left *= speed.value / 100.0;'
             httpText += ' right *= speed.value / 100.0;'
             httpText += ' iframe.src = "/set/" + left + "/" + right;\n'
-            httpText += '<object.onkeydown ="Drive(-1,1)" object.onkeyup="Off()">
             httpText += '}\n'
             httpText += 'function Off() {\n'
             httpText += ' var iframe = document.getElementById("setDrive");\n'
