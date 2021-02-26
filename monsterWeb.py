@@ -18,11 +18,11 @@ import datetime
 webPort = 80                            # Port number for the web-page, 80 is what web-pages normally use
 imageWidth = 240                        # Width of the captured image in pixels
 imageHeight = 192                       # Height of the captured image in pixels
-frameRate = 24                          # Number of images to capture per second
+frameRate = 30                          # Number of images to capture per second
 displayRate = 10                        # Number of images to request per second
 photoDirectory = '/home/pi'             # Directory to save photos to
 flippedCamera = True                    # Swap between True and False if the camera image is rotated by 180
-jpegQuality = 40                        # JPEG quality level, smaller is faster, higher looks better (0 to 100)
+jpegQuality = 80                        # JPEG quality level, smaller is faster, higher looks better (0 to 100)
 
 # Global values
 global TB
@@ -257,6 +257,7 @@ class WebServer(SocketServer.BaseRequestHandler):
             httpText += 'function Off() {\n'
             httpText += ' var iframe = document.getElementById("setDrive");\n'
             httpText += ' iframe.src = "/off";\n'
+            httpText += '}\n'
             httpText += 'function Photo() {\n'
             httpText += ' var iframe = document.getElementById("setDrive");\n'
             httpText += ' iframe.src = "/photo";\n'
@@ -276,6 +277,9 @@ class WebServer(SocketServer.BaseRequestHandler):
             httpText += '<button onclick="Drive(1,0)" style="width:200px;height:100px;"><b>Turn Right</b></button>\n'
             httpText += '<br /><br />\n'
             httpText += '<button onclick="Off()" style="width:200px;height:100px;"><b>Stop</b></button>\n'
+            httpText += '<br /><br />\n'
+            httpText += '<button onclick="Photo()" style="width:200px;height:100px;"><b>Save Photo</b></button>\n'
+            httpText += '<br /><br />\n'
             httpText += '<input id="speed" type="range" min="0" max="100" value="100" style="width:600px" />\n'
             httpText += '</center>\n'
             httpText += '</body>\n'
@@ -339,46 +343,6 @@ class WebServer(SocketServer.BaseRequestHandler):
             httpText += '<center><img src="/cam.jpg" style="width:600;height:480;" name="rpicam" /></center>\n'
             httpText += '</body>\n'
             httpText += '</html>\n'
-            self.send(httpText)
-        elif getPath == '/val':
-            httpText = """
-            <html>
-            <head>
-            <script language="JavaScript">
-            function Drive(left, right) {
-            var iframe = document.getElementById("setDrive");
-            var slider = document.getElementById("speed");
-            left *= speed.value / 100.0;
-            right *= speed.value / 100.0;
-            iframe.src = "/set/" + left + "/" + right;
-            }
-            function Off() {
-            var iframe = document.getElementById("setDrive");
-            iframe.src = "/off";
-            function Photo() {
-            var iframe = document.getElementById("setDrive");
-            iframe.src = "/photo";
-            }
-                 </script>
-            </head>
-            <body>
-            <iframe src="/stream" width="100%" height="500" frameborder="0"></iframe>
-            <iframe id="setDrive" src="/off" width="100%" height="50" frameborder="0"></iframe>
-            <center>
-            <button onclick="Drive(-1,1)" style="width:200px;height:100px;"><b>Spin Left</b></button>
-            <button onclick="Drive(1,1)" style="width:200px;height:100px;"><b>Forward</b></button>
-            <button onclick="Drive(1,-1)" style="width:200px;height:100px;"><b>Spin Right</b></button>
-            <br /><br />
-            <button onclick="Drive(0,1)" style="width:200px;height:100px;"><b>Turn Left</b></button>
-            <button onclick="Drive(-1,-1)" style="width:200px;height:100px;"><b>Reverse</b></button>
-            <button onclick="Drive(1,0)" style="width:200px;height:100px;"><b>Turn Right</b></button>
-            <br /><br />
-            <button onclick="Off()" style="width:200px;height:100px;"><b>Stop</b></button>
-            <input id="speed" type="range" min="0" max="100" value="100" style="width:600px" />
-            </center>
-            </body>
-            </html>
-            """
             self.send(httpText)
         else:
             # Unexpected page
