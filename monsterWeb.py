@@ -291,6 +291,7 @@ class WebServer(SocketServer.BaseRequestHandler):
             httpText += ' left *= speed.value / 100.0;'
             httpText += ' right *= speed.value / 100.0;'
             httpText += ' iframe.src = "/set/" + left + "/" + right;\n'
+            httpText += '<object.onkeydown ="Drive(-1,1)" object.onkeyup="Off()">
             httpText += '}\n'
             httpText += 'function Off() {\n'
             httpText += ' var iframe = document.getElementById("setDrive");\n'
@@ -338,32 +339,6 @@ class WebServer(SocketServer.BaseRequestHandler):
             httpText += '<center><img src="/cam.jpg" style="width:600;height:480;" name="rpicam" /></center>\n'
             httpText += '</body>\n'
             httpText += '</html>\n'
-            self.send(httpText)
-
-        elif getPath == '/val':
-            httpText = '<html>\n'
-            httpText += '<head>\n'
-            httpText += '<script language="JavaScript"><!--\n'
-            httpText += 'function Drive(left, right) {\n'
-            httpText += ' var iframe = document.getElementById("setDrive");\n'
-            httpText += ' var slider = document.getElementById("speed");\n'
-            httpText += ' left *= speed.value / 100.0;'
-            httpText += ' right *= speed.value / 100.0;'
-            httpText += ' iframe.src = "/set/" + left + "/" + right;\n'
-            httpText += '}\n'
-            httpText += 'function Off() {\n'
-            httpText += ' var iframe = document.getElementById("setDrive");\n'
-            httpText += ' iframe.src = "/off";\n'
-            httpText += '}\n'
-            httpText += 'function Photo() {\n'
-            httpText += ' var iframe = document.getElementById("setDrive");\n'
-            httpText += ' iframe.src = "/photo";\n'
-            httpText += '}\n'
-            httpText += '//--></script>\n'
-            httpText += '</head>\n'
-            httpText += '<body>\n'
-            httpText += '<iframe src="/stream" width="100%" height="500" frameborder="0"></iframe>\n'
-            httpText += '<iframe id="setDrive" src="/off" width="100%" height="50" frameborder="0"></iframe>\n'
             self.send(httpText)
         else:
             # Unexpected page
