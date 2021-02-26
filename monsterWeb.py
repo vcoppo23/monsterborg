@@ -18,11 +18,11 @@ import datetime
 webPort = 80                            # Port number for the web-page, 80 is what web-pages normally use
 imageWidth = 240                        # Width of the captured image in pixels
 imageHeight = 192                       # Height of the captured image in pixels
-frameRate = 30                          # Number of images to capture per second
+frameRate = 24                          # Number of images to capture per second
 displayRate = 10                        # Number of images to request per second
 photoDirectory = '/home/pi'             # Directory to save photos to
 flippedCamera = True                    # Swap between True and False if the camera image is rotated by 180
-jpegQuality = 80                        # JPEG quality level, smaller is faster, higher looks better (0 to 100)
+jpegQuality = 40                        # JPEG quality level, smaller is faster, higher looks better (0 to 100)
 
 # Global values
 global TB
@@ -341,6 +341,51 @@ class WebServer(SocketServer.BaseRequestHandler):
             httpText += '</head>\n'
             httpText += '<body onLoad="setTimeout(\'refreshImage()\', %d)">\n' % (displayDelay)
             httpText += '<center><img src="/cam.jpg" style="width:600;height:480;" name="rpicam" /></center>\n'
+            httpText += '</body>\n'
+            httpText += '</html>\n'
+            self.send(httpText)
+        elif getPath == '/val':
+            elif getPath == '/hold':
+            # Alternate page, hold buttons to move (does not work with all devices)
+            httpText = '<html>\n'
+            httpText += '<head>\n'
+            httpText += '<script language="JavaScript"><!--\n'
+            httpText += 'function Drive(left, right) {\n'
+            httpText += ' var iframe = document.getElementById("setDrive");\n'
+            httpText += ' var slider = document.getElementById("speed");\n'
+            httpText += ' left *= speed.value / 100.0;'
+            httpText += ' right *= speed.value / 100.0;'
+            httpText += ' iframe.src = "/set/" + left + "/" + right;\n'
+            httpText += '}\n'
+            httpText += 'function Off() {\n'
+            httpText += ' var iframe = document.getElementById("setDrive");\n'
+            httpText += ' iframe.src = "/off";\n'
+            httpText += '}\n'
+            httpText += 'function Photo() {\n'
+            httpText += ' var iframe = document.getElementById("setDrive");\n'
+            httpText += ' iframe.src = "/photo";\n'
+            httpText += '}\n'
+            httpText += 'var KeypressFunctions = [];\n'
+            httpText += 'KeypressFunctions[\'T\'.charCodeAt(0)] = Drive(1,1)\n'
+            httpText += 'KeypressFunctions[\'t\'.charCodeAt(0)] = Drive(1,1)\n'
+            httpText += '//--></script>\n'
+            httpText += '</head>\n'
+            httpText += '<body>\n'
+            httpText += '<iframe src="/stream" width="100%" height="500" frameborder="0"></iframe>\n'
+            httpText += '<iframe id="setDrive" src="/off" width="100%" height="50" frameborder="0"></iframe>\n'
+            httpText += '<center>\n'
+            httpText += '<button onmousedown="Drive(-1,1)" onmouseup="Off()" style="width:200px;height:100px;"><b>Spin Left</b></button>\n'
+            httpText += '<button onmousedown="Drive(1,1)" onmouseup="Off()" style="width:200px;height:100px;"><b>Forward</b></button>\n'
+            httpText += '<button onmousedown="Drive(1,-1)" onmouseup="Off()" style="width:200px;height:100px;"><b>Spin Right</b></button>\n'
+            httpText += '<br /><br />\n'
+            httpText += '<button onmousedown="Drive(0,1)" onmouseup="Off()" style="width:200px;height:100px;"><b>Turn Left</b></button>\n'
+            httpText += '<button onmousedown="Drive(-1,-1)" onmouseup="Off()" style="width:200px;height:100px;"><b>Reverse</b></button>\n'
+            httpText += '<button onmousedown="Drive(1,0)" onmouseup="Off()" style="width:200px;height:100px;"><b>Turn Right</b></button>\n'
+            httpText += '<br /><br />\n'
+            httpText += '<button onclick="Photo()" style="width:200px;height:100px;"><b>Save Photo</b></button>\n'
+            httpText += '<br /><br />\n'
+            httpText += '<input id="speed" type="range" min="0" max="100" value="100" style="width:600px" />\n'
+            httpText += '</center>\n'
             httpText += '</body>\n'
             httpText += '</html>\n'
             self.send(httpText)
