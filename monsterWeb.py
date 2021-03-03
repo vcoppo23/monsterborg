@@ -367,7 +367,7 @@ class WebServer(SocketServer.BaseRequestHandler):
             httpText += 'window.addEventListener("keydown", function (event) {\n'
             httpText += ' if (event.defaultPrevented) {\n'
             httpText += '   return; // Do nothing if the event was already processed\n'
-            httpText += ' }\'\n'
+            httpText += ' }\n'
             httpText += ' switch (event.key) {\n'
             httpText += '   case "Down": // IE/Edge specific value\n'
             httpText += '   case "ArrowDown":\n'
