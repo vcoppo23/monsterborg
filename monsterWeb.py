@@ -421,6 +421,10 @@ class WebServer(SocketServer.BaseRequestHandler):
             httpText += '</body>\n'
             httpText += '</html>\n'
             self.send(httpText)
+
+        elif getPath == '/coppo':
+            with open('holdkey.js', 'r') as httpText
+            self.send(httpText)
         else:
             # Unexpected page
             self.send('Path : "%s"' % (getPath))
