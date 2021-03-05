@@ -423,7 +423,7 @@ class WebServer(SocketServer.BaseRequestHandler):
             self.send(httpText)
 
         elif getPath == '/coppo':
-            with open('holdkey.js', 'r') as httpText
+            with open('holdkey.js', 'r') as httpText:
             self.send(httpText)
         else:
             # Unexpected page
