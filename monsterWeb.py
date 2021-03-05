@@ -365,7 +365,7 @@ class WebServer(SocketServer.BaseRequestHandler):
             httpText += ' iframe.src = "/photo";\n'
             httpText += '}\n'
             #Drive Function with Keys
-            httpText += 'document.addEventListener("keyup", function (event) {\n'
+            httpText += 'document.addEventListener("keypress", function (event) {\n'
             httpText += ' if (event.defaultPrevented) {\n'
             httpText += '   return; // Do nothing if the event was already processed\n'
             httpText += ' }\n'
@@ -420,10 +420,6 @@ class WebServer(SocketServer.BaseRequestHandler):
             httpText += '</center>\n'
             httpText += '</body>\n'
             httpText += '</html>\n'
-            self.send(httpText)
-
-        elif getPath == '/coppo':
-            httpText = open('holdkey.js', 'r')
             self.send(httpText)
         else:
             # Unexpected page
