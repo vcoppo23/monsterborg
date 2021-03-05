@@ -365,7 +365,7 @@ class WebServer(SocketServer.BaseRequestHandler):
             httpText += ' iframe.src = "/photo";\n'
             httpText += '}\n'
             #Drive Function with Keys
-            httpText += 'document.addEventListener("keypress", function (event) {\n'
+            httpText += 'document.addEventListener("keydown", function (event) {\n'
             httpText += ' if (event.defaultPrevented) {\n'
             httpText += '   return; // Do nothing if the event was already processed\n'
             httpText += ' }\n'
